@@ -5,7 +5,7 @@ test.describe('SauceDemo - Login Tests', () => {
     // This runs before each test
     test.beforeEach(async ({ page }) => {
         // Navigate to login page
-        await page.goto('https://www.saucedemo.com/');
+        await page.goto('/');
 
         // Wait for page to load
         await expect(page.locator('.login_logo')).toBeVisible();
@@ -39,54 +39,42 @@ test.describe('SauceDemo - Login Tests', () => {
     //---------Part 1: Valid Login Tests (6 tests)------------------
 
     test('verify with valid standard_user', async ({ page }) => {
-        await page.locator('[data-test="username"]').click();
         await page.locator('[data-test="username"]').fill('standard_user');
-        await page.locator('[data-test="username"]').press('Tab');
         await page.locator('[data-test="password"]').fill('secret_sauce');
         await page.locator('[data-test="login-button"]').click();
         await expect(page.locator('[data-test="title"]')).toContainText('Products');
     });
 
-    test('verify loging with problem_user', async ({ page }) => {
-        await page.locator('[data-test="username"]').click();
+    test('verify login with problem_user', async ({ page }) => {
         await page.locator('[data-test="username"]').fill('problem_user');
-        await page.locator('[data-test="username"]').press('Tab');
         await page.locator('[data-test="password"]').fill('secret_sauce');
         await page.locator('[data-test="login-button"]').click();
         await expect(page.locator('[data-test="title"]')).toContainText('Products');
     });
 
-    test('verify loging with performance_glitch_user', async ({ page }) => {
-        await page.locator('[data-test="username"]').click();
+    test('verify login with performance_glitch_user', async ({ page }) => {
         await page.locator('[data-test="username"]').fill('performance_glitch_user');
-        await page.locator('[data-test="username"]').press('Tab');
         await page.locator('[data-test="password"]').fill('secret_sauce');
         await page.locator('[data-test="login-button"]').click();
         await expect(page.locator('[data-test="title"]')).toContainText('Products');
     });
 
-    test('verify loging with error_user', async ({ page }) => {
-        await page.locator('[data-test="username"]').click();
+    test('verify login with error_user', async ({ page }) => {
         await page.locator('[data-test="username"]').fill('error_user');
-        await page.locator('[data-test="username"]').press('Tab');
         await page.locator('[data-test="password"]').fill('secret_sauce');
         await page.locator('[data-test="login-button"]').click();
         await expect(page.locator('[data-test="title"]')).toContainText('Products');
     });
 
-    test('verify loging with visual_user', async ({ page }) => {
-        await page.locator('[data-test="username"]').click();
-        await page.locator('[data-test="username"]').fill('error_user');
-        await page.locator('[data-test="username"]').press('Tab');
+    test('verify login with visual_user', async ({ page }) => {
+        await page.locator('[data-test="username"]').fill('visual_user');
         await page.locator('[data-test="password"]').fill('secret_sauce');
         await page.locator('[data-test="login-button"]').click();
         await expect(page.locator('[data-test="title"]')).toContainText('Products');
     });
 
-    test('verify loging with locked_out_user', async ({ page }) => {
-        await page.locator('[data-test="username"]').click();
+    test('verify login with locked_out_user', async ({ page }) => {
         await page.locator('[data-test="username"]').fill('locked_out_user');
-        await page.locator('[data-test="username"]').press('Tab');
         await page.locator('[data-test="password"]').fill('secret_sauce');
         await page.locator('[data-test="login-button"]').click();
         await expect(page.locator('[data-test="error"]')).toContainText('Epic sadface: Sorry, this user has been locked out.');
@@ -95,63 +83,49 @@ test.describe('SauceDemo - Login Tests', () => {
     //--------Part 2: Invalid Login Tests (7 tests)----------------
 
     test('verify with empty username and password', async ({ page }) => {
-        await page.locator('[data-test="username"]').click();
         await page.locator('[data-test="username"]').fill('');
-        await page.locator('[data-test="username"]').press('Tab');
         await page.locator('[data-test="password"]').fill('');
         await page.locator('[data-test="login-button"]').click();
         await expect(page.locator('[data-test="error"]')).toContainText('Epic sadface: Username is required');
     });
 
     test('verify with only empty username', async ({ page }) => {
-        await page.locator('[data-test="username"]').click();
         await page.locator('[data-test="username"]').fill('');
-        await page.locator('[data-test="username"]').press('Tab');
         await page.locator('[data-test="password"]').fill('secret_sauce');
         await page.locator('[data-test="login-button"]').click();
         await expect(page.locator('[data-test="error"]')).toContainText('Epic sadface: Username is required');
     });
 
     test('verify with only empty password', async ({ page }) => {
-        await page.locator('[data-test="username"]').click();
         await page.locator('[data-test="username"]').fill('locked_out_user');
-        await page.locator('[data-test="username"]').press('Tab');
         await page.locator('[data-test="password"]').fill('');
         await page.locator('[data-test="login-button"]').click();
         await expect(page.locator('[data-test="error"]')).toContainText('Epic sadface: Password is required');
     });
 
     test('verify with invalid username', async ({ page }) => {
-        await page.locator('[data-test="username"]').click();
         await page.locator('[data-test="username"]').fill('Test1');
-        await page.locator('[data-test="username"]').press('Tab');
         await page.locator('[data-test="password"]').fill('secret_sauce');
         await page.locator('[data-test="login-button"]').click();
         await expect(page.locator('[data-test="error"]')).toContainText('Epic sadface: Username and password do not match any user in this service');
     });
 
     test('verify with invalid password', async ({ page }) => {
-        await page.locator('[data-test="username"]').click();
         await page.locator('[data-test="username"]').fill('standard_user');
-        await page.locator('[data-test="username"]').press('Tab');
         await page.locator('[data-test="password"]').fill('secret2323');
         await page.locator('[data-test="login-button"]').click();
         await expect(page.locator('[data-test="error"]')).toContainText('Epic sadface: Username and password do not match any user in this service');
     });
 
     test('verify username case sensitivity', async ({ page }) => {
-        await page.locator('[data-test="username"]').click();
         await page.locator('[data-test="username"]').fill('Standard_User');
-        await page.locator('[data-test="username"]').press('Tab');
         await page.locator('[data-test="password"]').fill('secret_sauce');
         await page.locator('[data-test="login-button"]').click();
         await expect(page.locator('[data-test="error"]')).toContainText('Epic sadface: Username and password do not match any user in this service');
     });
 
     test('verify password case sensitivity', async ({ page }) => {
-        await page.locator('[data-test="username"]').click();
         await page.locator('[data-test="username"]').fill('standard_user');
-        await page.locator('[data-test="username"]').press('Tab');
         await page.locator('[data-test="password"]').fill('Secret_Sauce');
         await page.locator('[data-test="login-button"]').click();
         await expect(page.locator('[data-test="error"]')).toContainText('Epic sadface: Username and password do not match any user in this service');
@@ -173,17 +147,13 @@ test.describe('SauceDemo - Login Tests', () => {
     });
 
     test('verify password is masked', async ({ page }) => {
-        await page.locator('[data-test="username"]').click();
         await page.locator('[data-test="username"]').fill('standard_user');
-        await page.locator('[data-test="username"]').press('Tab');
         await page.locator('[data-test="password"]').fill('secret_sauce');
         await expect(page.locator('[data-test="password"]')).toHaveAttribute('type', 'password');
     });
 
     test('verify error message can be dismissed', async ({ page }) => {
-        await page.locator('[data-test="username"]').click();
         await page.locator('[data-test="username"]').fill('standard_use');
-        await page.locator('[data-test="username"]').press('Tab');
         await page.locator('[data-test="password"]').fill('secret_sauce');
         await page.locator('[data-test="login-button"]').click();
         await expect(page.locator('[data-test="error"]')).toBeVisible();
