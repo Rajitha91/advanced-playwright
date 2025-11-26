@@ -11,6 +11,9 @@ test("verify with valid standard_user", async ({ page }) => {
   await page.locator('[data-test="password"]').fill("secret_sauce");
   await page.locator('[data-test="login-button"]').click();
   await expect(page.locator('[data-test="title"]')).toContainText("Products");
+
+  await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
+  await page.locator('[data-test="remove-sauce-labs-backpack"]').click();
 });
 
 test("verify login with problem_user", async ({ page }) => {
